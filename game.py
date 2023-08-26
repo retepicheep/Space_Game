@@ -9,12 +9,13 @@ class Game:
     def __init__(self):
         pygame.init()
         self.surface = pygame.display.set_mode((W, H))
-        self.background = Background("#000000")
+        self.background = Background()
         pygame.display.set_caption("Space Game")
 
     def run(self):
         player = Player(1)
-        self.background.generate(self.surface, "space")
+        planets = pygame.sprite.Group()
+        self.background.generate(self.surface, planets, 11, Planet)
         player.draw(self.surface, "forward")
         objects = self.background.objects
         while True:
@@ -48,13 +49,8 @@ class Game:
                     self.background.build(object)
                     player.draw(self.surface, "left")
             if keys[pygame.K_l]:
-                for object in objects:
-                    if object.type == "planet":
-                        if pygame.sprite.spritecollide(
-                            object.sprite, player.sprite, True
-                        ):
-                            # if object.mask.overlap(player.mask, (object.x - 400, object.y - 400)):
-                            print("landing")
+                if player.collided(objects):
+                    pass
 
             pygame.display.update()
 

@@ -14,6 +14,7 @@ class GameObject(pygame.sprite.Sprite):
 
     def build(self):
         img = pygame.image.load(self.route)
+        self.rect = img.get_rect()
         self.surface.blit(img, (self.x, self.y))
 
 
