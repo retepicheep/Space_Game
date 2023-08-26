@@ -5,7 +5,7 @@ from objcets import *
 from player import *
 
 
-class Game:
+class Game():
     def __init__(self):
         pygame.init()
         self.surface = pygame.display.set_mode((W, H))
