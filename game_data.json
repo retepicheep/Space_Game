@@ -1,0 +1,10 @@
+{
+    "player": {
+        "pos_x": 250,
+        "pos_y": 250,
+        "size": "(64, 64)",
+        "object_type": "player",
+        "name": "Spaceman Joe",
+        "sprite": "assets/players/ship1.png"
+    }
+}
