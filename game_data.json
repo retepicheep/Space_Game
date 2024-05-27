@@ -1,11 +1,12 @@
 {
     "player": {
-        "pos_x": 250,
-        "pos_y": 250,
-        "size": "(64, 64)",
-        "rotate": 0,
+        "pos_x": 960,
+        "pos_y": 600,
+        "size": "(100, 100)",
+        "rotate": 1805,
         "object_type": "player",
         "name": "Spaceman Joe",
-        "sprite": "assets/players/ship1.png"
+        "sprite": "assets/players/player2.png",
+        "keywords": "player"
     }
 }

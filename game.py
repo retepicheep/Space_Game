@@ -1,5 +1,5 @@
 import pygame
-from space_game import handle_json, create_game, quit
+from space_game import handle_json, create_game, quit, resize
 
 pygame.init()
 
@@ -10,7 +10,7 @@ init_dict = handle_json("init.json", "read")
 #     print(f"Read 'init.json' successfully: {init_dict}")
 
 win_x, win_y = init_dict["win_x"], init_dict["win_y"]
-screen = pygame.display.set_mode((win_x, win_y))
+screen = pygame.display.set_mode((win_x, win_y), pygame.RESIZABLE)
 
 clock = pygame.time.Clock()
 
@@ -18,6 +18,7 @@ run = True
 objects = create_game(screen)
 while run:
     quit(run)
+    resize(objects)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
         objects["player"].update(rotate=5)
