@@ -13,19 +13,29 @@ def quit(run) -> None:
             sys.exit(0)
 
 
-def resize(objects):
+def repos(objects):
     for event in pygame.event.get():
         if event.type == pygame.VIDEORESIZE:
             win_x, win_y = event.size
+            print(win_x, win_y)
 
-            # Calculate offset between player's position and screen center
-            player_offset_x = win_x // 2 - objects["player"].pos_x
-            player_offset_y = win_y // 2 - objects["player"].pos_y
+            # Calculate offset between player's current position and the new center of the screen
+            player = objects["player"]
+            center_x = win_x // 2
+            center_y = win_y // 2
 
-            # Update positions of other objects relative to the player's position and the screen center
-            for obj in objects:
-                if obj != objects["player"]:  # Exclude player object
-                    objects[obj].update(x=player_offset_x, y=player_offset_y)
+            offset_x = center_x - player.pos_x
+            offset_y = center_y - player.pos_y
+
+            # Update player's position to the center of the screen
+            player.pos_x = center_x
+            player.pos_y = center_y
+            player.update()
+
+            # Update positions of other objects relative to the player's new position
+            for obj_key, obj in objects.items():
+                if obj_key != "player":  # Exclude player object
+                    obj.update(x=offset_x, y=offset_y)
 
 
 def create_game(screen) -> None:
@@ -36,36 +46,55 @@ def create_game(screen) -> None:
 
     objects.update({"player": player})
 
-    planets = set()
-    if handle_json("game_data.py", "read", keywords=["planets"]) is not None:
-        for obj in range(
-            len(handle_json("game_data.py", "read", keywords=["planets"]))
-        ):
-            planet = GameObject.game_from_json("game_data.json", ["planets", str(obj)])
-            planets.add(planet)
+    places = set()
+    if handle_json("game_data.py", "read", keywords=["places"]) is not None:
+        for obj in range(len(handle_json("game_data.py", "read", keywords=["places"]))):
+            place = GameObject.game_from_json("game_data.json", ["places", str(obj)])
+            places.add(place)
     else:
         for obj2 in range(randint(5, 10)):
-            size = randint(64, 100)
-            planet = GameObject(
+            size = randint(400, 600)
+            place = GameObject(
                 randint(-800, 800),
-                randint(-800, 800),
+                randint(0, 100),
                 (size, size),
                 randint(0, 360),
-                "planet",
-                f"planet#{obj2}",
-                f"assets/planets/planet{randint(0, 10)}.png",
+                "place",
+                f"place#{obj2}",
+                f"assets/places/planet{randint(0, 10)}.png",
+                ["places", f"place#{obj2}"],
             )
             collision = False
-            for pl in planets:
-                if planet.check_collision(pl):
+            for pl in places:
+                if place.check_collision(pl):
                     collision = True
                     obj2 -= 1
                     break
 
             if not collision:
-                planets.add(planet)
+                places.add(place)
+                place.update()
+                place.draw(screen)
+                objects.update({f"place#{obj2}": place})
 
     return objects
 
 
 # create_game()
+
+
+def draw_minimap(
+    screen,
+    objects,
+    player,
+    win_x,
+    win_y,
+    minimap_width,
+    minimap_height,
+    minimap_scale,
+):
+    minimap_surface = pygame.Surface((minimap_width, minimap_height))
+    minimap_surface.fill((0, 0, 0, 255))
+    for obj in objects.values():
+        obj.draw_on_minimap(minimap_surface, minimap_scale)
+    screen.blit(minimap_surface, (win_x - minimap_width, win_y - minimap_height))
