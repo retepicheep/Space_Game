@@ -1,5 +1,5 @@
 import pygame
-from space_game.helpers import handle_json
+from game.helpers import handle_json
 # import os
 
 
@@ -17,6 +17,7 @@ class GameObject:
             data["object_type"],
             data["name"],
             data["sprite"],
+            data["speed"],
             data["keywords"],
             data["fly"],
         )
@@ -30,7 +31,8 @@ class GameObject:
         object_type,
         name,
         sprite,
-        keywords=None,
+        speed,
+        keywords,
         fly=False,
     ) -> None:
         self.pos_x = pos_x
@@ -42,42 +44,16 @@ class GameObject:
         self.keywords = [keywords] if isinstance(keywords, str) else keywords
         self.original_sprite = pygame.transform.scale(
             pygame.image.load(sprite), self.size
-        )
+        ).convert_alpha()
         self.sprite = self.original_sprite
         self.mask = pygame.mask.from_surface(self.sprite)
         self.rect = self.sprite.get_rect(center=(self.pos_x, self.pos_y))
         self.update_sprite()
         self.fly = fly
         self.path = sprite
+        self.speed = speed
 
-        # Add attributes to game_data.json
-        self.save_to_json()
-
-    def save_to_json(self):
-        attributes = {
-            "pos_x": self.pos_x,
-            "pos_y": self.pos_y,
-            "size": self.size,
-            "rotate": self.rotate,
-            "object_type": self.object_type,
-            "name": self.name,
-            "sprite": self.path,  # Assuming you want the sprite path, not the loaded image
-            "fly": self.fly,
-        }
-        # Check and update the game_data.json file with the new attributes if they don't exist
-        for key, value in attributes.items():
-            existing_value = handle_json(
-                "game_data.json", "read", keywords=self.keywords + [key]
-            )
-            if existing_value is None:
-                handle_json(
-                    "game_data.json",
-                    "update",
-                    keywords=self.keywords + [key],
-                    update_data=value,
-                )
-
-    def update(self, x=0, y=0, rotate=0):
+    def update(self, file, x=0, y=0, rotate=0):
         self.pos_x += x
         self.pos_y += y
         self.rotate += rotate
@@ -85,19 +61,19 @@ class GameObject:
         self.update_sprite()
 
         handle_json(
-            "game_data.json",
+            file,
             "update",
             keywords=self.keywords + ["pos_x"],
             update_data=self.pos_x,
         )
         handle_json(
-            "game_data.json",
+            file,
             "update",
             keywords=self.keywords + ["pos_y"],
             update_data=self.pos_y,
         )
         handle_json(
-            "game_data.json",
+            file,
             "update",
             keywords=self.keywords + ["rotate"],
             update_data=self.rotate,
@@ -109,18 +85,17 @@ class GameObject:
         self.mask = pygame.mask.from_surface(self.sprite)
 
     def draw(self, screen):
-        screen.blit(self.sprite, self.rect.center)
+        if self.is_visible(screen.get_width(), screen.get_height()):
+            screen.blit(self.sprite, self.rect.topleft)
 
     def check_collision(self, other) -> bool:
         offset = (other.rect.left - self.rect.left, other.rect.top - self.rect.top)
         return self.mask.overlap(other.mask, offset) is not None
 
-    def draw_on_minimap(self, minimap_surface, scale):
-        mini_rect = self.rect.copy()
-        mini_rect.width = int(mini_rect.width * scale)
-        mini_rect.height = int(mini_rect.height * scale)
-        mini_rect.center = (int(self.pos_x * scale), int(self.pos_y * scale))
-        mini_sprite = pygame.transform.scale(
-            self.sprite, (mini_rect.width, mini_rect.height)
+    def is_visible(self, screen_width, screen_height, margin=100):
+        return (
+            self.pos_x + self.rect.width + margin > 0
+            and self.pos_x - margin < screen_width
+            and self.pos_y + self.rect.height + margin > 0
+            and self.pos_y - margin < screen_height
         )
-        minimap_surface.blit(mini_sprite, mini_rect.topleft)

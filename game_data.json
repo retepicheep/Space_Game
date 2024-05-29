@@ -1,48 +1,145 @@
 {
     "player": {
-        "pos_x": 400,
-        "pos_y": 398,
+        "pos_x": 720,
+        "pos_y": 450,
         "size": [
-            20,
-            20
+            100,
+            100
         ],
-        "rotate": 2070,
+        "rotate": 20,
         "object_type": "player",
         "name": "Spaceman Joe",
-        "sprite": "assets/players/player2.png",
+        "sprite": "space_game/assets/players/player2.png",
         "keywords": "player",
-        "fly": true
+        "fly": true,
+        "speed": 5
     },
     "places": {
-        "place#0": {
-            "pos_x": -953.6532692766518,
-            "pos_y": 164.32952091371277,
-            "rotate": 225
+        "place0": {
+            "pos_x": -27330.874191995634,
+            "pos_y": 30280.198790928924,
+            "size": [
+                1000,
+                1000
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "X3051",
+            "sprite": "space_game/assets/places/planet1.png",
+            "keywords": [
+                "places",
+                "place0"
+            ],
+            "fly": false,
+            "speed": 0
         },
-        "place#1": {
-            "pos_x": -470.65326927663693,
-            "pos_y": 154.32952091371334,
-            "rotate": 126
+        "place1": {
+            "pos_x": -32330.87419199538,
+            "pos_y": 30780.19879092886,
+            "size": [
+                1600,
+                1600
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Cool Place",
+            "sprite": "space_game/assets/places/planet2.png",
+            "keywords": [
+                "places",
+                "place1"
+            ],
+            "fly": false,
+            "speed": 0
         },
-        "place#2": {
-            "pos_x": 70.34673072337546,
-            "pos_y": 178.32952091371249,
-            "rotate": 256
+        "place2": {
+            "pos_x": 8707.43473693924,
+            "pos_y": 12310.883773134095,
+            "size": [
+                2000,
+                2000
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Death World",
+            "sprite": "space_game/assets/places/planet3.png",
+            "keywords": [
+                "places",
+                "place2"
+            ],
+            "fly": false,
+            "speed": 0
         },
-        "place#6": {
-            "pos_x": -288,
-            "pos_y": 16,
-            "rotate": 328
+        "place3": {
+            "pos_x": -5292.565263062802,
+            "pos_y": 6810.883773134193,
+            "size": [
+                1000,
+                1000
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Icy",
+            "sprite": "space_game/assets/places/planet4.png",
+            "keywords": [
+                "places",
+                "place3"
+            ],
+            "fly": false,
+            "speed": 0
         },
-        "place#4": {
-            "pos_x": -69.41129711814222,
-            "pos_y": -1316.556297243313,
-            "rotate": 94
+        "place4": {
+            "pos_x": 4707.434736939193,
+            "pos_y": 6310.883773134195,
+            "size": [
+                2000,
+                2000
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Home",
+            "sprite": "space_game/assets/places/planet5.png",
+            "keywords": [
+                "places",
+                "place4"
+            ],
+            "fly": false,
+            "speed": 0
         },
-        "place#5": {
-            "pos_x": 1061.1706345794287,
-            "pos_y": 116.57889569897054,
-            "rotate": 318
+        "place5": {
+            "pos_x": 708.4347369379055,
+            "pos_y": 438.8837731341844,
+            "size": [
+                2000,
+                2000
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Big",
+            "sprite": "space_game/assets/places/planet6.png",
+            "keywords": [
+                "places",
+                "place5"
+            ],
+            "fly": false,
+            "speed": 0
+        },
+        "place6": {
+            "pos_x": 15707.434736939336,
+            "pos_y": 6610.883773134204,
+            "size": [
+                2500,
+                2500
+            ],
+            "rotate": 0,
+            "object_type": "place",
+            "name": "Really Big",
+            "sprite": "space_game/assets/places/planet7.png",
+            "keywords": [
+                "places",
+                "place6"
+            ],
+            "fly": false,
+            "speed": 0
         }
     }
 }
